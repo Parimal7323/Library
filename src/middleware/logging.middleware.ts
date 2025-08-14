@@ -17,15 +17,13 @@ export class LoggingMiddleware implements NestMiddleware {
       `${method} ${originalUrl} - ${timestamp} - IP: ${ip} - User-Agent: ${userAgent}`
     );
 
-    // Log response details
-    const originalSend = res.send;
-    res.send = function (body) {
+    // Log response details using response finish event
+    res.on('finish', () => {
       const responseTime = Date.now() - startTime;
       this.logger.log(
         `${method} ${originalUrl} - ${res.statusCode} - ${responseTime}ms`
       );
-      return originalSend.call(this, body);
-    }.bind({ logger: this.logger });
+    });
 
     next();
   }

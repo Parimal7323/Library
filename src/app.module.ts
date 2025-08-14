@@ -7,12 +7,14 @@ import { SearchModule } from './search/search.module';
 import { SeedModule } from './seed/seed.module';
 import { HealthModule } from './health/health.module';
 import { LoggingMiddleware } from './middleware/logging.middleware';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
     // Configuration module
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env.local',
     }),
     
     // MongoDB connection
@@ -30,6 +32,7 @@ import { LoggingMiddleware } from './middleware/logging.middleware';
     SeedModule,
     HealthModule,
   ],
+  controllers: [AppController],
   providers: [LoggingMiddleware],
 })
 export class AppModule implements NestModule {
