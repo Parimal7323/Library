@@ -29,10 +29,10 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   const port = process.env.PORT || 4000;
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   
-  console.log(`🚀 Library Management API is running on: http://localhost:${port}`);
-  console.log(`📚 Swagger documentation available at: http://localhost:${port}/api`);
+  console.log(`🚀 Library Management API is running on: http://0.0.0.0:${port}`);
+  console.log(`📚 Swagger documentation available at: http://0.0.0.0:${port}/api`);
 }
 
 bootstrap();

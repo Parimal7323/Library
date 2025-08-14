@@ -14,11 +14,16 @@ import { AppController } from './app.controller';
     // Configuration module
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env.local',
     }),
     
-    // MongoDB connection
-    MongooseModule.forRoot(process.env.MONGODB_URI || 'mongodb://localhost:27017/library-management'),
+    // MongoDB connection with better error handling for serverless
+    MongooseModule.forRoot(process.env.MONGODB_URI || 'mongodb://localhost:27017/library-management', {
+      bufferCommands: false,
+      maxPoolSize: 1, // Important for serverless
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      family: 4, // Use IPv4
+    }),
     
     // Rate limiting
     ThrottlerModule.forRoot([{
